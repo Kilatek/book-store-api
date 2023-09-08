@@ -1,0 +1,12 @@
+
+# Database settings
+database:
+  url: "mongodb://localhost:27017"
+  name: "bookstore"
+  timeout: 5
+
+# Server settings
+server:
+  debug: true
+  host: "localhost"
+  port: ":8082"
