@@ -21,3 +21,8 @@ type BookService interface {
 	FindAll(ctx context.Context) ([]*payload.BookResponse, error)
 	Delete(ctx context.Context, id string) error
 }
+
+type UserService interface {
+	Register(ctx context.Context, user *payload.RegisterRequest) error
+	Login(ctx context.Context, user *payload.LoginRequest) (*payload.LoginResponse, error)
+}
