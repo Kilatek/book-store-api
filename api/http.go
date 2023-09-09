@@ -13,3 +13,7 @@ type RestfulHandler interface {
 type AuthorHandler interface {
 	RestfulHandler
 }
+
+type BookHandler interface {
+	RestfulHandler
+}

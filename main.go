@@ -24,14 +24,21 @@ func main() {
 		panic(err)
 	}
 
-	repo, err := mongorepo.NewAuthorRepository(conf.DB.URL, conf.DB.Name, conf.DB.Timeout)
+	authorRepo, err := mongorepo.NewAuthorRepository(conf.DB.URL, conf.DB.Name, conf.DB.Timeout)
 	if err != nil {
 		panic(err)
 	}
 
-	authorSvc := service.NewAuthorService(repo)
+	bookRepo, err := mongorepo.NewBookRepository(conf.DB.URL, conf.DB.Name, conf.DB.Timeout)
+	if err != nil {
+		panic(err)
+	}
 
-	handler := api.NewAuthorHandler(authorSvc)
+	authorSvc := service.NewAuthorService(authorRepo)
+	bookSvc := service.NewBookService(bookRepo, authorRepo)
+
+	authorHandler := api.NewAuthorHandler(authorSvc)
+	bookHandler := api.NewBookHandler(bookSvc)
 
 	r := chi.NewRouter()
 	r.Use(middleware.RequestID)
@@ -41,11 +48,18 @@ func main() {
 
 	r.Route("/api/v1", func(r chi.Router) {
 		r.Route("/authors", func(r chi.Router) {
-			r.Get("/{id}", handler.Get)
-			r.Post("/", handler.Post)
-			r.Put("/{id}", handler.Put)
-			r.Delete("/{id}", handler.Delete)
-			r.Get("/", handler.GetAll)
+			r.Get("/{id}", authorHandler.Get)
+			r.Post("/", authorHandler.Post)
+			r.Put("/{id}", authorHandler.Put)
+			r.Delete("/{id}", authorHandler.Delete)
+			r.Get("/", authorHandler.GetAll)
+		})
+		r.Route("/books", func(r chi.Router) {
+			r.Get("/{id}", bookHandler.Get)
+			r.Post("/", bookHandler.Post)
+			r.Put("/{id}", bookHandler.Put)
+			r.Delete("/{id}", bookHandler.Delete)
+			r.Get("/", bookHandler.GetAll)
 		})
 	})
 

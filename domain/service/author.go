@@ -37,12 +37,11 @@ func (s *authorService) Find(ctx context.Context, id string) (*payload.AuthorRes
 }
 
 func (s *authorService) Store(ctx context.Context, req *payload.AuthorRequest) error {
-	author := &entity.Author{}
-
 	if err := req.Validate(); err != nil {
 		return portError.NewBadRequestError(err.Error(), nil)
 	}
 
+	author := &entity.Author{}
 	if err := mapper.MapStructsWithJSONTags(req, author); err != nil {
 		return err
 	}

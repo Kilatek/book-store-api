@@ -13,3 +13,11 @@ type AuthorRepository interface {
 	FindAll(ctx context.Context) ([]*entity.Author, error)
 	Delete(ctx context.Context, id string) error
 }
+
+type BookRepository interface {
+	Find(ctx context.Context, id string) (*entity.Book, error)
+	Store(ctx context.Context, author *entity.Book) error
+	Update(ctx context.Context, author *entity.Book) error
+	FindAll(ctx context.Context) ([]*entity.Book, error)
+	Delete(ctx context.Context, id string) error
+}
