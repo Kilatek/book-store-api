@@ -80,6 +80,10 @@ func (h *authorHandler) Delete(w http.ResponseWriter, r *http.Request) {
 		responseErr(w, err)
 		return
 	}
+
+	responseJSON(w, http.StatusOK, payload.MessageResponse{
+		Message: "Deleted author successfully!",
+	})
 }
 func (h *authorHandler) GetAll(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")

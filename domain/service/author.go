@@ -10,15 +10,15 @@ import (
 	"bookstore.com/tools/mapper"
 )
 
-type authService struct {
+type authorService struct {
 	authorRepo repository.AuthorRepository
 }
 
 func NewAuthorService(authRepo repository.AuthorRepository) AuthorService {
-	return &authService{authorRepo: authRepo}
+	return &authorService{authorRepo: authRepo}
 }
 
-func (s *authService) Find(ctx context.Context, id string) (*payload.AuthorResponse, error) {
+func (s *authorService) Find(ctx context.Context, id string) (*payload.AuthorResponse, error) {
 	if id == "" {
 		return nil, portError.NewBadRequestError("id is empty", nil)
 	}
@@ -36,7 +36,7 @@ func (s *authService) Find(ctx context.Context, id string) (*payload.AuthorRespo
 	return res, nil
 }
 
-func (s *authService) Store(ctx context.Context, req *payload.AuthorRequest) error {
+func (s *authorService) Store(ctx context.Context, req *payload.AuthorRequest) error {
 	author := &entity.Author{}
 
 	if err := req.Validate(); err != nil {
@@ -50,7 +50,7 @@ func (s *authService) Store(ctx context.Context, req *payload.AuthorRequest) err
 	return s.authorRepo.Store(ctx, author)
 
 }
-func (s *authService) Update(ctx context.Context, id string, req *payload.AuthorRequest) error {
+func (s *authorService) Update(ctx context.Context, id string, req *payload.AuthorRequest) error {
 	if id == "" {
 		return portError.NewBadRequestError("id is empty", nil)
 	}
@@ -73,7 +73,7 @@ func (s *authService) Update(ctx context.Context, id string, req *payload.Author
 	return s.authorRepo.Update(ctx, author)
 }
 
-func (s *authService) FindAll(ctx context.Context) ([]*payload.AuthorResponse, error) {
+func (s *authorService) FindAll(ctx context.Context) ([]*payload.AuthorResponse, error) {
 	authors, err := s.authorRepo.FindAll(ctx)
 	if err != nil {
 		return nil, err
@@ -91,6 +91,11 @@ func (s *authService) FindAll(ctx context.Context) ([]*payload.AuthorResponse, e
 	return list, nil
 }
 
-func (s *authService) Delete(ctx context.Context, id string) error {
+func (s *authorService) Delete(ctx context.Context, id string) error {
+	_, err := s.Find(ctx, id)
+	if err != nil {
+		return err
+	}
+
 	return s.authorRepo.Delete(ctx, id)
 }

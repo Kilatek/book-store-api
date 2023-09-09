@@ -55,7 +55,7 @@ func (r *authorRepository) Store(ctx context.Context, author *entities.Author) e
 		},
 	)
 	if err != nil {
-		return errors.Wrap(err, "mongoRepository.Store")
+		return errors.Wrap(err, "authorRepository.Store")
 	}
 
 	return nil
@@ -75,16 +75,20 @@ func (r *authorRepository) Update(ctx context.Context, author *entities.Author) 
 	_, err = collection.UpdateByID(
 		ctx,
 		_id,
-		bson.M{
-			"firstName":   author.FirstName,
-			"lastName":    author.LastName,
-			"birthDate":   author.BirthDate,
-			"nationality": author.Nationality,
-			"updatedAt":   now,
+		bson.D{
+			{
+				Key: "$set", Value: bson.D{
+					{Key: "firstName", Value: author.FirstName},
+					{Key: "lastName", Value: author.LastName},
+					{Key: "birthDate", Value: author.BirthDate},
+					{Key: "nationality", Value: author.Nationality},
+					{Key: "updatedAt", Value: now},
+				},
+			},
 		},
 	)
 	if err != nil {
-		return errors.Wrap(err, "mongoRepository.Update")
+		return errors.Wrap(err, "authorRepository.Update")
 	}
 
 	return nil
@@ -108,7 +112,7 @@ func (r *authorRepository) Find(ctx context.Context, id string) (*entities.Autho
 		if err == mongo.ErrNoDocuments {
 			return nil, portError.NewNotFoundError("author not found", err)
 		}
-		return nil, errors.Wrap(err, "mongoRepository.Find")
+		return nil, errors.Wrap(err, "authorRepository.Find")
 	}
 
 	return author, nil

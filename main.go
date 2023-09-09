@@ -43,7 +43,7 @@ func main() {
 		r.Route("/authors", func(r chi.Router) {
 			r.Get("/{id}", handler.Get)
 			r.Post("/", handler.Post)
-			r.Put("/{id}", handler.Delete)
+			r.Put("/{id}", handler.Put)
 			r.Delete("/{id}", handler.Delete)
 			r.Get("/", handler.GetAll)
 		})
