@@ -49,3 +49,7 @@ func responseJSON(w http.ResponseWriter, status int, v interface{}) {
 	w.WriteHeader(status)
 	w.Write(raw)
 }
+
+func response(w http.ResponseWriter, status int) {
+	w.WriteHeader(status)
+}

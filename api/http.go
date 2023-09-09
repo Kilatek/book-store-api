@@ -17,3 +17,8 @@ type AuthorHandler interface {
 type BookHandler interface {
 	RestfulHandler
 }
+
+type UserHandler interface {
+	Register(http.ResponseWriter, *http.Request)
+	Login(http.ResponseWriter, *http.Request)
+}
