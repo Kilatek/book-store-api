@@ -2,7 +2,6 @@ package payload
 
 import (
 	"fmt"
-	"time"
 
 	"bookstore.com/tools/datetime"
 )
@@ -37,6 +36,10 @@ func (r *BookRequest) Validate() error {
 		return fmt.Errorf("price: field required")
 	}
 
+	if r.Price < 0 {
+		return fmt.Errorf("price: invalid")
+	}
+
 	if r.AuthorId == "" {
 		return fmt.Errorf("authorId: field required")
 	}
@@ -45,12 +48,12 @@ func (r *BookRequest) Validate() error {
 }
 
 type BookResponse struct {
-	ID              string          `json:"id"`
+	Id              string          `json:"id"`
 	Author          *AuthorResponse `json:"author"`
 	Name            string          `json:"name"`
 	Description     string          `json:"description"`
 	PublicationDate string          `json:"publicationDate"`
 	Price           float64         `json:"price"`
-	CreatedAt       time.Time       `json:"createdAt"`
-	UpdatedAt       time.Time       `json:"updatedAt"`
+	CreatedAt       string          `json:"createdAt"`
+	UpdatedAt       string          `json:"updatedAt"`
 }
