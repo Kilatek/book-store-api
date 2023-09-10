@@ -57,9 +57,9 @@ func (s *bookService) Store(ctx context.Context, req *payload.BookRequest) error
 		return err
 	}
 
-	newBook, err := s.bookRepo.Store(ctx, book)
-	if s.notificationRepo != nil && newBook != nil {
-		s.notificationRepo.Store(ctx, newBook)
+	_, err = s.bookRepo.Store(ctx, book)
+	if s.notificationRepo != nil && err == nil {
+		s.notificationRepo.AddAction(ctx, "newBook")
 	}
 
 	return err
@@ -89,7 +89,11 @@ func (s *bookService) Update(ctx context.Context, id string, req *payload.BookRe
 
 	book.Id = id
 
-	return s.bookRepo.Update(ctx, book)
+	err = s.bookRepo.Update(ctx, book)
+	if s.notificationRepo != nil && err == nil {
+		s.notificationRepo.AddAction(ctx, "newBook")
+	}
+	return err
 }
 
 func (s *bookService) FindAll(ctx context.Context) ([]*payload.BookResponse, error) {
@@ -116,5 +120,9 @@ func (s *bookService) Delete(ctx context.Context, id string) error {
 		return err
 	}
 
-	return s.bookRepo.Delete(ctx, id)
+	err = s.bookRepo.Delete(ctx, id)
+	if s.notificationRepo != nil && err == nil {
+		s.notificationRepo.AddAction(ctx, "newBook")
+	}
+	return err
 }

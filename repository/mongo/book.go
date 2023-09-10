@@ -65,8 +65,7 @@ func (r *bookRepository) Store(ctx context.Context, book *entities.Book) (*entit
 		return nil, errors.Wrap(err, "bookRepository.Store")
 	}
 
-	insertedBook, _ := r.Find(ctx, bookId.Hex())
-	return insertedBook, nil
+	return &entities.Book{}, nil
 }
 
 func (r *bookRepository) Update(ctx context.Context, book *entities.Book) error {

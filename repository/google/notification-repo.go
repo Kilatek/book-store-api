@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"time"
 
 	"bookstore.com/domain/entity"
 	firebase "firebase.google.com/go"
@@ -40,6 +41,10 @@ func (db *FireDB) Connect() error {
 
 func (db *FireDB) Store(ctx context.Context, book *entity.Book) {
 	db.NewRef("books/"+book.Id).Set(context.Background(), book)
+}
+
+func (db *FireDB) AddAction(ctx context.Context, action string) {
+	db.NewRef("books/"+fmt.Sprint(time.Now().UTC().UnixNano())).Set(context.Background(), action)
 }
 
 func FirebaseDB() *FireDB {

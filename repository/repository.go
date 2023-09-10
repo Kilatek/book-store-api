@@ -29,4 +29,5 @@ type UserRepository interface {
 
 type NotificationRepository interface {
 	Store(ctx context.Context, book *entity.Book)
+	AddAction(ctx context.Context, action string)
 }
