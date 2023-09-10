@@ -175,11 +175,12 @@ func (mr *MockBookRepositoryMockRecorder) FindAll(ctx interface{}) *gomock.Call 
 }
 
 // Store mocks base method.
-func (m *MockBookRepository) Store(ctx context.Context, author *entity.Book) error {
+func (m *MockBookRepository) Store(ctx context.Context, author *entity.Book) (*entity.Book, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Store", ctx, author)
-	ret0, _ := ret[0].(error)
-	return ret0
+	ret0, _ := ret[0].(*entity.Book)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
 }
 
 // Store indicates an expected call of Store.
@@ -200,4 +201,103 @@ func (m *MockBookRepository) Update(ctx context.Context, author *entity.Book) er
 func (mr *MockBookRepositoryMockRecorder) Update(ctx, author interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Update", reflect.TypeOf((*MockBookRepository)(nil).Update), ctx, author)
+}
+
+// MockUserRepository is a mock of UserRepository interface.
+type MockUserRepository struct {
+	ctrl     *gomock.Controller
+	recorder *MockUserRepositoryMockRecorder
+}
+
+// MockUserRepositoryMockRecorder is the mock recorder for MockUserRepository.
+type MockUserRepositoryMockRecorder struct {
+	mock *MockUserRepository
+}
+
+// NewMockUserRepository creates a new mock instance.
+func NewMockUserRepository(ctrl *gomock.Controller) *MockUserRepository {
+	mock := &MockUserRepository{ctrl: ctrl}
+	mock.recorder = &MockUserRepositoryMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockUserRepository) EXPECT() *MockUserRepositoryMockRecorder {
+	return m.recorder
+}
+
+// Find mocks base method.
+func (m *MockUserRepository) Find(ctx context.Context, username string) (*entity.User, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Find", ctx, username)
+	ret0, _ := ret[0].(*entity.User)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// Find indicates an expected call of Find.
+func (mr *MockUserRepositoryMockRecorder) Find(ctx, username interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Find", reflect.TypeOf((*MockUserRepository)(nil).Find), ctx, username)
+}
+
+// Store mocks base method.
+func (m *MockUserRepository) Store(ctx context.Context, user *entity.User) error {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "Store", ctx, user)
+	ret0, _ := ret[0].(error)
+	return ret0
+}
+
+// Store indicates an expected call of Store.
+func (mr *MockUserRepositoryMockRecorder) Store(ctx, user interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Store", reflect.TypeOf((*MockUserRepository)(nil).Store), ctx, user)
+}
+
+// MockNotificationRepository is a mock of NotificationRepository interface.
+type MockNotificationRepository struct {
+	ctrl     *gomock.Controller
+	recorder *MockNotificationRepositoryMockRecorder
+}
+
+// MockNotificationRepositoryMockRecorder is the mock recorder for MockNotificationRepository.
+type MockNotificationRepositoryMockRecorder struct {
+	mock *MockNotificationRepository
+}
+
+// NewMockNotificationRepository creates a new mock instance.
+func NewMockNotificationRepository(ctrl *gomock.Controller) *MockNotificationRepository {
+	mock := &MockNotificationRepository{ctrl: ctrl}
+	mock.recorder = &MockNotificationRepositoryMockRecorder{mock}
+	return mock
+}
+
+// EXPECT returns an object that allows the caller to indicate expected use.
+func (m *MockNotificationRepository) EXPECT() *MockNotificationRepositoryMockRecorder {
+	return m.recorder
+}
+
+// AddAction mocks base method.
+func (m *MockNotificationRepository) AddAction(ctx context.Context, action string) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "AddAction", ctx, action)
+}
+
+// AddAction indicates an expected call of AddAction.
+func (mr *MockNotificationRepositoryMockRecorder) AddAction(ctx, action interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "AddAction", reflect.TypeOf((*MockNotificationRepository)(nil).AddAction), ctx, action)
+}
+
+// Store mocks base method.
+func (m *MockNotificationRepository) Store(ctx context.Context, book *entity.Book) {
+	m.ctrl.T.Helper()
+	m.ctrl.Call(m, "Store", ctx, book)
+}
+
+// Store indicates an expected call of Store.
+func (mr *MockNotificationRepositoryMockRecorder) Store(ctx, book interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "Store", reflect.TypeOf((*MockNotificationRepository)(nil).Store), ctx, book)
 }

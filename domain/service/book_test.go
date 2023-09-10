@@ -126,7 +126,7 @@ func Test_bookService_Store(t *testing.T) {
 					Description:     test.BookDescription1,
 					PublicationDate: test.PublicationDate1,
 					Price:           test.Price1,
-				}).Return(nil)
+				}).Return(&entity.Book{}, nil)
 
 				return bookRepo
 			},
@@ -279,7 +279,7 @@ func Test_bookService_Store(t *testing.T) {
 					Description:     test.BookDescription1,
 					PublicationDate: test.PublicationDate1,
 					Price:           test.Price1,
-				}).Return(errors.New("error occur"))
+				}).Return(nil, errors.New("error occur"))
 
 				return bookRepo
 			},
