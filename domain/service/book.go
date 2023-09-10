@@ -63,13 +63,18 @@ func (s *bookService) Update(ctx context.Context, id string, req *payload.BookRe
 		return portError.NewBadRequestError("id is empty", nil)
 	}
 
+	if err := req.Validate(); err != nil {
+		return portError.NewBadRequestError(err.Error(), nil)
+	}
+
 	book, err := s.bookRepo.Find(ctx, id)
 	if err != nil {
 		return err
 	}
 
-	if err := req.Validate(); err != nil {
-		return portError.NewBadRequestError(err.Error(), nil)
+	_, err = s.authorRepo.Find(ctx, req.AuthorId)
+	if err != nil {
+		return err
 	}
 
 	if err := mapper.MapStructsWithJSONTags(req, book); err != nil {

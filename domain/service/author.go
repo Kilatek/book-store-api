@@ -54,13 +54,13 @@ func (s *authorService) Update(ctx context.Context, id string, req *payload.Auth
 		return portError.NewBadRequestError("id is empty", nil)
 	}
 
+	if err := req.Validate(); err != nil {
+		return portError.NewBadRequestError(err.Error(), nil)
+	}
+
 	author, err := s.authorRepo.Find(ctx, id)
 	if err != nil {
 		return err
-	}
-
-	if err := req.Validate(); err != nil {
-		return portError.NewBadRequestError(err.Error(), nil)
 	}
 
 	if err := mapper.MapStructsWithJSONTags(req, author); err != nil {
