@@ -35,7 +35,7 @@ func responseErr(w http.ResponseWriter, err error) {
 
 	log.Println(err)
 	responseJSON(w, http.StatusInternalServerError, &payload.MessageResponse{
-		Message: "Some thing wrong with the server",
+		Message: "Something went wrong, please try again.",
 	})
 }
 

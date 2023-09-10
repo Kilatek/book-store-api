@@ -56,7 +56,7 @@ func (s *userService) Login(ctx context.Context, req *payload.LoginRequest) (*pa
 
 	err = CheckPasswordHash(user_tmp.Password, req.Password)
 	if err != nil {
-		return res, err
+		return res, portError.NewNotFoundError("The email address or password is incorrect.", err)
 	}
 	expirationTime := time.Now().Add(24 * time.Hour)
 

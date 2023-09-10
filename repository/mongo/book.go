@@ -41,7 +41,7 @@ func (r *bookRepository) Store(ctx context.Context, book *entities.Book) (*entit
 
 	authorId, err := primitive.ObjectIDFromHex(book.AuthorId)
 	if err != nil {
-		return nil, portError.NewBadRequestError("unable to parse author ID to ObjectID", err)
+		return nil, portError.NewBadRequestError("Unable to parse author ID to ObjectID.", err)
 	}
 
 	collection := r.client.Database(r.db).Collection(BookCollectionName)
@@ -74,12 +74,12 @@ func (r *bookRepository) Update(ctx context.Context, book *entities.Book) error 
 
 	_id, err := primitive.ObjectIDFromHex(book.Id)
 	if err != nil {
-		return portError.NewBadRequestError("unable to parse book ID to ObjectID", err)
+		return portError.NewBadRequestError("Unable to parse book ID to ObjectID.", err)
 	}
 
 	authorId, err := primitive.ObjectIDFromHex(book.AuthorId)
 	if err != nil {
-		return portError.NewBadRequestError("unable to parse author ID to ObjectID", err)
+		return portError.NewBadRequestError("Unable to parse author ID to ObjectID.", err)
 	}
 
 	collection := r.client.Database(r.db).Collection(BookCollectionName)
@@ -113,7 +113,7 @@ func (r *bookRepository) Find(ctx context.Context, id string) (*entities.Book, e
 
 	_id, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return nil, portError.NewBadRequestError("unable to parse author ID to ObjectID", err)
+		return nil, portError.NewBadRequestError("Unable to parse author ID to ObjectID.", err)
 	}
 
 	var books []*entities.Book
@@ -148,7 +148,7 @@ func (r *bookRepository) Find(ctx context.Context, id string) (*entities.Book, e
 	}
 
 	if len(books) == 0 {
-		return nil, portError.NewNotFoundError("book not found", nil)
+		return nil, portError.NewNotFoundError("Book not found.", nil)
 	}
 
 	return books[0], nil

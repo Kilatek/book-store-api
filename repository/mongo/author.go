@@ -67,7 +67,7 @@ func (r *authorRepository) Update(ctx context.Context, author *entities.Author) 
 
 	_id, err := primitive.ObjectIDFromHex(author.Id)
 	if err != nil {
-		return portError.NewBadRequestError("unable to parse author ID to ObjectID", err)
+		return portError.NewBadRequestError("Unable to parse author ID to ObjectID.", err)
 	}
 
 	collection := r.client.Database(r.db).Collection(AuthorCollectionName)
@@ -100,7 +100,7 @@ func (r *authorRepository) Find(ctx context.Context, id string) (*entities.Autho
 
 	_id, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
-		return nil, portError.NewBadRequestError("unable to parse author ID to ObjectID", err)
+		return nil, portError.NewBadRequestError("Unable to parse author ID to ObjectID.", err)
 	}
 
 	author := &entities.Author{}
@@ -110,7 +110,7 @@ func (r *authorRepository) Find(ctx context.Context, id string) (*entities.Autho
 	err = collection.FindOne(ctx, filter).Decode(author)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return nil, portError.NewNotFoundError("author not found", err)
+			return nil, portError.NewNotFoundError("Author not found.", err)
 		}
 		return nil, errors.Wrap(err, "authorRepository.Find")
 	}

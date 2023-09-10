@@ -71,7 +71,7 @@ func (r *userRepository) Find(ctx context.Context, username string) (*entities.U
 	err := collection.FindOne(ctx, filter).Decode(user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return nil, portError.NewNotFoundError("user not found", err)
+			return nil, portError.NewNotFoundError("The email address or password is incorrect.", err)
 		}
 		return nil, errors.Wrap(err, "mongoRepository.Find")
 	}
