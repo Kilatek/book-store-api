@@ -16,7 +16,7 @@ type AuthorRepository interface {
 
 type BookRepository interface {
 	Find(ctx context.Context, id string) (*entity.Book, error)
-	Store(ctx context.Context, author *entity.Book) error
+	Store(ctx context.Context, author *entity.Book) (*entity.Book, error)
 	Update(ctx context.Context, author *entity.Book) error
 	FindAll(ctx context.Context) ([]*entity.Book, error)
 	Delete(ctx context.Context, id string) error
@@ -25,4 +25,8 @@ type BookRepository interface {
 type UserRepository interface {
 	Find(ctx context.Context, username string) (*entity.User, error)
 	Store(ctx context.Context, user *entity.User) error
+}
+
+type NotificationRepository interface {
+	Store(ctx context.Context, book *entity.Book)
 }

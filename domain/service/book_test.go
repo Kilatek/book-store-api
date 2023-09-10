@@ -92,7 +92,7 @@ func Test_bookService_Find(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewBookService(tt.bookRepo(), tt.authorRepo())
+			s := NewBookService(tt.bookRepo(), tt.authorRepo(), nil)
 			got, err := s.Find(context.TODO(), tt.id)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("bookService.Find() error = %v, wantErr %v", err, tt.wantErr)
@@ -309,7 +309,7 @@ func Test_bookService_Store(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewBookService(tt.bookRepo(), tt.authorRepo())
+			s := NewBookService(tt.bookRepo(), tt.authorRepo(), nil)
 			if err := s.Store(context.TODO(), tt.req); (err != nil) != tt.wantErr {
 				t.Errorf("bookService.Store() error = %v, wantErr %v", err, tt.wantErr)
 			}
@@ -575,7 +575,7 @@ func Test_bookService_Update(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewBookService(tt.bookRepo(), tt.authorRepo())
+			s := NewBookService(tt.bookRepo(), tt.authorRepo(), nil)
 			if err := s.Update(context.TODO(), tt.id, tt.req); (err != nil) != tt.wantErr {
 				t.Errorf("bookService.Update() error = %v, wantErr %v", err, tt.wantErr)
 			}
@@ -660,7 +660,7 @@ func Test_bookService_FindAll(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewBookService(tt.bookRepo(), tt.authorRepo())
+			s := NewBookService(tt.bookRepo(), tt.authorRepo(), nil)
 			got, err := s.FindAll(context.TODO())
 			if (err != nil) != tt.wantErr {
 				t.Errorf("bookService.FindAll() error = %v, wantErr %v", err, tt.wantErr)
@@ -727,7 +727,7 @@ func Test_bookService_Delete(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewBookService(tt.bookRepo(), tt.authorRepo())
+			s := NewBookService(tt.bookRepo(), tt.authorRepo(), nil)
 			if err := s.Delete(context.TODO(), tt.id); (err != nil) != tt.wantErr {
 				t.Errorf("bookService.Delete() error = %v, wantErr %v", err, tt.wantErr)
 			}

@@ -11,15 +11,17 @@ import (
 )
 
 type bookService struct {
-	bookRepo   repository.BookRepository
-	authorRepo repository.AuthorRepository
+	bookRepo         repository.BookRepository
+	authorRepo       repository.AuthorRepository
+	notificationRepo repository.NotificationRepository
 }
 
 func NewBookService(
 	bookRepo repository.BookRepository,
 	authorRepo repository.AuthorRepository,
+	notificationRepo repository.NotificationRepository,
 ) BookService {
-	return &bookService{bookRepo: bookRepo, authorRepo: authorRepo}
+	return &bookService{bookRepo: bookRepo, authorRepo: authorRepo, notificationRepo: notificationRepo}
 }
 
 func (s *bookService) Find(ctx context.Context, id string) (*payload.BookResponse, error) {
@@ -55,8 +57,12 @@ func (s *bookService) Store(ctx context.Context, req *payload.BookRequest) error
 		return err
 	}
 
-	return s.bookRepo.Store(ctx, book)
+	newBook, err := s.bookRepo.Store(ctx, book)
+	if s.notificationRepo != nil && newBook != nil {
+		s.notificationRepo.Store(ctx, newBook)
+	}
 
+	return err
 }
 func (s *bookService) Update(ctx context.Context, id string, req *payload.BookRequest) error {
 	if id == "" {

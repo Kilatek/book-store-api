@@ -8,6 +8,7 @@ import (
 	"bookstore.com/api"
 	"bookstore.com/config"
 	"bookstore.com/domain/service"
+	google "bookstore.com/repository/google"
 	mongorepo "bookstore.com/repository/mongo"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -36,8 +37,11 @@ func main() {
 		panic(err)
 	}
 
+	notificationRepo := google.FirebaseDB()
+	notificationRepo.Connect()
+
 	authorSvc := service.NewAuthorService(authorRepo)
-	bookSvc := service.NewBookService(bookRepo, authorRepo)
+	bookSvc := service.NewBookService(bookRepo, authorRepo, notificationRepo)
 
 	authorHandler := api.NewAuthorHandler(authorSvc)
 	bookHandler := api.NewBookHandler(bookSvc)

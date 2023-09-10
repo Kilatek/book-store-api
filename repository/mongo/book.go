@@ -35,22 +35,23 @@ func NewBookRepository(mongoServerURL, mongoDb string, timeout int) (repository.
 	return repo, nil
 }
 
-func (r *bookRepository) Store(ctx context.Context, book *entities.Book) error {
+func (r *bookRepository) Store(ctx context.Context, book *entities.Book) (*entities.Book, error) {
 	ctx, cancel := context.WithTimeout(ctx, r.timeout)
 	defer cancel()
 
 	authorId, err := primitive.ObjectIDFromHex(book.AuthorId)
 	if err != nil {
-		return portError.NewBadRequestError("unable to parse author ID to ObjectID", err)
+		return nil, portError.NewBadRequestError("unable to parse author ID to ObjectID", err)
 	}
 
 	collection := r.client.Database(r.db).Collection(BookCollectionName)
 
+	bookId := primitive.NewObjectID()
 	now := time.Now()
 	_, err = collection.InsertOne(
 		ctx,
 		bson.M{
-			"_id":             primitive.NewObjectID(),
+			"_id":             bookId,
 			"authorId":        authorId,
 			"name":            book.Name,
 			"description":     book.Description,
@@ -61,10 +62,11 @@ func (r *bookRepository) Store(ctx context.Context, book *entities.Book) error {
 		},
 	)
 	if err != nil {
-		return errors.Wrap(err, "bookRepository.Store")
+		return nil, errors.Wrap(err, "bookRepository.Store")
 	}
 
-	return nil
+	insertedBook, _ := r.Find(ctx, bookId.Hex())
+	return insertedBook, nil
 }
 
 func (r *bookRepository) Update(ctx context.Context, book *entities.Book) error {
