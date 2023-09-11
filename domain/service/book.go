@@ -91,7 +91,7 @@ func (s *bookService) Update(ctx context.Context, id string, req *payload.BookRe
 
 	err = s.bookRepo.Update(ctx, book)
 	if s.notificationRepo != nil && err == nil {
-		s.notificationRepo.AddAction(ctx, "newBook")
+		s.notificationRepo.AddAction(ctx, "updateBook")
 	}
 	return err
 }
@@ -122,7 +122,7 @@ func (s *bookService) Delete(ctx context.Context, id string) error {
 
 	err = s.bookRepo.Delete(ctx, id)
 	if s.notificationRepo != nil && err == nil {
-		s.notificationRepo.AddAction(ctx, "newBook")
+		s.notificationRepo.AddAction(ctx, "deleteBook")
 	}
 	return err
 }
