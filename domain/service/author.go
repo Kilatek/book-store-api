@@ -20,7 +20,7 @@ func NewAuthorService(authRepo repository.AuthorRepository) AuthorService {
 
 func (s *authorService) Find(ctx context.Context, id string) (*payload.AuthorResponse, error) {
 	if id == "" {
-		return nil, portError.NewBadRequestError("id is empty", nil)
+		return nil, portError.NewBadRequestError("Id is empty.", nil)
 	}
 
 	author, err := s.authorRepo.Find(ctx, id)

@@ -66,7 +66,7 @@ func (s *bookService) Store(ctx context.Context, req *payload.BookRequest) error
 }
 func (s *bookService) Update(ctx context.Context, id string, req *payload.BookRequest) error {
 	if id == "" {
-		return portError.NewBadRequestError("id is empty", nil)
+		return portError.NewBadRequestError("Id is empty.", nil)
 	}
 
 	if err := req.Validate(); err != nil {
