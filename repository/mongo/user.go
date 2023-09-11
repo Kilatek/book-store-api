@@ -5,7 +5,6 @@ import (
 	"time"
 
 	entities "bookstore.com/domain/entity"
-	portError "bookstore.com/port/error"
 	"bookstore.com/repository"
 	"github.com/pkg/errors"
 	"go.mongodb.org/mongo-driver/bson"
@@ -71,7 +70,7 @@ func (r *userRepository) Find(ctx context.Context, username string) (*entities.U
 	err := collection.FindOne(ctx, filter).Decode(user)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return nil, portError.NewNotFoundError("The email address or password is incorrect.", err)
+			return nil, nil
 		}
 		return nil, errors.Wrap(err, "mongoRepository.Find")
 	}

@@ -29,12 +29,12 @@ func (s *userService) Register(ctx context.Context, req *payload.RegisterRequest
 	}
 
 	userTmp, err := s.userRepo.Find(ctx, user.Username)
-	if err != nil && err.Error() != "user not found" {
+	if err != nil {
 		return err
 	}
 
 	if userTmp != nil {
-		return portError.NewBadRequestError("user does exist", nil)
+		return portError.NewBadRequestError("User is exist.", nil)
 	}
 
 	user.Password, err = Hash(user.Password)
@@ -52,6 +52,10 @@ func (s *userService) Login(ctx context.Context, req *payload.LoginRequest) (*pa
 	user_tmp, err := s.userRepo.Find(ctx, req.Username)
 	if err != nil {
 		return res, err
+	}
+
+	if user_tmp == nil {
+		return res, portError.NewNotFoundError("The email address or password is incorrect.", err)
 	}
 
 	err = CheckPasswordHash(user_tmp.Password, req.Password)
