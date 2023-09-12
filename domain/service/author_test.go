@@ -76,7 +76,7 @@ func Test_authorService_Find(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewAuthorService(tt.authorRepo())
+			s := NewAuthorService(tt.authorRepo(), nil)
 			got, err := s.Find(context.TODO(), tt.id)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("authorService.Find() error = %v, wantErr %v", err, tt.wantErr)
@@ -191,7 +191,7 @@ func Test_authorService_Store(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewAuthorService(tt.AuthorRepo())
+			s := NewAuthorService(tt.AuthorRepo(), nil)
 			if err := s.Store(context.TODO(), tt.req); (err != nil) != tt.wantErr {
 				t.Errorf("authorService.Store() error = %v, wantErr %v", err, tt.wantErr)
 			}
@@ -312,7 +312,7 @@ func Test_authorService_Update(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewAuthorService(tt.AuthorRepo())
+			s := NewAuthorService(tt.AuthorRepo(), nil)
 			if err := s.Update(context.TODO(), tt.id, tt.req); (err != nil) != tt.wantErr {
 				t.Errorf("authorService.Update() error = %v, wantErr %v", err, tt.wantErr)
 			}
@@ -373,7 +373,7 @@ func Test_authorService_FindAll(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewAuthorService(tt.AuthorRepo())
+			s := NewAuthorService(tt.AuthorRepo(), nil)
 			got, err := s.FindAll(context.TODO())
 			if (err != nil) != tt.wantErr {
 				t.Errorf("authorService.FindAll() error = %v, wantErr %v", err, tt.wantErr)
@@ -429,7 +429,7 @@ func Test_authorService_Delete(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := NewAuthorService(tt.AuthorRepo())
+			s := NewAuthorService(tt.AuthorRepo(), nil)
 			if err := s.Delete(context.TODO(), tt.id); (err != nil) != tt.wantErr {
 				t.Errorf("authorService.Delete() error = %v, wantErr %v", err, tt.wantErr)
 			}

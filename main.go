@@ -40,7 +40,7 @@ func main() {
 	notificationRepo := google.FirebaseDB()
 	notificationRepo.Connect()
 
-	authorSvc := service.NewAuthorService(authorRepo)
+	authorSvc := service.NewAuthorService(authorRepo, notificationRepo)
 	bookSvc := service.NewBookService(bookRepo, authorRepo, notificationRepo)
 
 	authorHandler := api.NewAuthorHandler(authorSvc)

@@ -11,11 +11,12 @@ import (
 )
 
 type authorService struct {
-	authorRepo repository.AuthorRepository
+	authorRepo       repository.AuthorRepository
+	notificationRepo repository.NotificationRepository
 }
 
-func NewAuthorService(authRepo repository.AuthorRepository) AuthorService {
-	return &authorService{authorRepo: authRepo}
+func NewAuthorService(authRepo repository.AuthorRepository, notificationRepo repository.NotificationRepository) AuthorService {
+	return &authorService{authorRepo: authRepo, notificationRepo: notificationRepo}
 }
 
 func (s *authorService) Find(ctx context.Context, id string) (*payload.AuthorResponse, error) {
@@ -96,5 +97,8 @@ func (s *authorService) Delete(ctx context.Context, id string) error {
 		return err
 	}
 
+	if s.notificationRepo != nil {
+		s.notificationRepo.AddAction(ctx, "deleteAuthor")
+	}
 	return s.authorRepo.Delete(ctx, id)
 }
