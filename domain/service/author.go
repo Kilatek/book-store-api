@@ -46,7 +46,9 @@ func (s *authorService) Store(ctx context.Context, req *payload.AuthorRequest) e
 	if err := mapper.MapStructsWithJSONTags(req, author); err != nil {
 		return err
 	}
-
+	if s.notificationRepo != nil {
+		s.notificationRepo.AddAction(ctx, "addAuthor")
+	}
 	return s.authorRepo.Store(ctx, author)
 
 }
@@ -70,6 +72,9 @@ func (s *authorService) Update(ctx context.Context, id string, req *payload.Auth
 
 	author.Id = id
 
+	if s.notificationRepo != nil {
+		s.notificationRepo.AddAction(ctx, "updateAuthor")
+	}
 	return s.authorRepo.Update(ctx, author)
 }
 
